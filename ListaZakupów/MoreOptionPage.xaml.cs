@@ -52,6 +52,9 @@ namespace ListaZakupów
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
+            //ZakupyDoEdycji.ItemsSource = zakupy;
+
+            ZakupyDoEdycji.ItemsSource = null;
             ZakupyDoEdycji.ItemsSource = zakupy;
         }
 
@@ -86,34 +89,72 @@ namespace ListaZakupów
 
                 ChangeNames(namesList);
 
+                ZakupyDoEdycji.ItemsSource = null;
                 ZakupyDoEdycji.ItemsSource = zakupy;
             }
-            if (PoleWyszukiwania.SelectedIndex == 1)
+            else if (PoleWyszukiwania.SelectedIndex == 1)
             {
                 ShowSpecialMessage();
             }
-            if (PoleWyszukiwania.SelectedIndex == 2)
+            else if (PoleWyszukiwania.SelectedIndex == 2)
             {
-                zakupy = (ObservableCollection<Zakup>)zakupy.Select(n => n.Jednostka.ToUpper());
+                var namesList = (from zakup in zakupy
+                                 select zakup.Jednostka.ToUpper()).ToList();
+
+                ChangeUnit(namesList);
+
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = zakupy;
             }
-            if (PoleWyszukiwania.SelectedIndex == 3)
+            else if (PoleWyszukiwania.SelectedIndex == 3)
             {
-                zakupy = (ObservableCollection<Zakup>)zakupy.Select(n => n.PrefMarak.ToUpper());
+                var namesList = (from zakup in zakupy
+                                 select zakup.PrefMarak.ToUpper()).ToList();
+
+                ChangePrefMark(namesList);
+
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = zakupy;
             }
-            if (PoleWyszukiwania.SelectedIndex == 4)
+            else if (PoleWyszukiwania.SelectedIndex == 4)
             {
                 ShowSpecialMessage();
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 5)
+            {
+                var namesList = (from zakup in zakupy
+                                 select zakup.Nazwa.ToUpper()).ToList();
+
+                ChangeNames(namesList);
+
+                namesList = (from zakup in zakupy
+                                 select zakup.Jednostka.ToUpper()).ToList();
+
+                ChangeUnit(namesList);
+
+                namesList = (from zakup in zakupy
+                                 select zakup.PrefMarak.ToUpper()).ToList();
+
+                ChangePrefMark(namesList);
+
+
             }
         }
 
         private void SmallerLettersButton_Click(object sender, RoutedEventArgs e)
         {
+            var namesList = (from zakup in zakupy
+                             select zakup.Nazwa.ToLower()).ToList();
 
+            ChangeNames(namesList);
+
+            ZakupyDoEdycji.ItemsSource = null;
+            ZakupyDoEdycji.ItemsSource = zakupy;
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void ChangeNames(List<string> listNames)
@@ -122,6 +163,22 @@ namespace ListaZakupów
             {
                 zakupy[i].Nazwa = listNames[i];
             }      
+        }
+
+        private void ChangePrefMark(List<string> listPrefMark)
+        {
+            for (int i = 0; i < zakupy.Count; i++)
+            {
+                zakupy[i].PrefMarak = listPrefMark[i];
+            }
+        }
+
+        private void ChangeUnit(List<String> listUnit)
+        {
+             for (int i = 0; i < zakupy.Count; i++)
+            {
+                zakupy[i].Jednostka = listUnit[i];
+            }
         }
 
 

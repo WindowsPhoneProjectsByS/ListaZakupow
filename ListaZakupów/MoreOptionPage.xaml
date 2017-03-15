@@ -43,7 +43,7 @@
             <Border Padding="10" Grid.Column="0" Grid.Row="0">
                 <StackPanel >
                     <TextBlock Text="Szukaj" FontSize="25"/>
-                    <TextBox x:Name="ZakupNazwa"/>
+                    <TextBox x:Name="SearchText"/>
                 </StackPanel>
             </Border>
             <Border Padding="10" Grid.Column="1" Grid.Row="0">
