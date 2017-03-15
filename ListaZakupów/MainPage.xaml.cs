@@ -87,5 +87,10 @@ namespace ListaZakupów
 
             ZakupJednostka.SelectedIndex = 0;
         }
+
+        private void GoToMoreButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MoreOptionPage), zakupy);
+        }
     }
 }

@@ -58,6 +58,9 @@
     <AppxPackagedFile Include="D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\bin\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\bin\Debug\MoreOptionPage.xbf">
+      <PackagePath>MoreOptionPage.xbf</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>

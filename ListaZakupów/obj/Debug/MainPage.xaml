@@ -10,13 +10,17 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="7*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="Zakupy" Grid.Row="0" Grid.Column="0">
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Button x:ConnectionId='2' x:Name="GoToMoreButton" Content="Opcje zawansowane" HorizontalAlignment="Center"                             />    
+        </Grid>
+        <ListView x:Name="Zakupy" Grid.Row="1" Grid.Column="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -30,7 +34,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>    
         </ListView>
-        <Grid Grid.Row="1" Grid.Column="0">
+        <Grid Grid.Row="2" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>

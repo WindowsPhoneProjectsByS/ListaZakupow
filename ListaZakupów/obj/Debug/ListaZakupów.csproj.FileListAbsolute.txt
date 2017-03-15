@@ -30,3 +30,8 @@ D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\obj\Debug\qualifiers
 D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\obj\Debug\qualifiers.txt.intermediate
 D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\obj\Debug\MultipleQualifiersPerDimensionFound.txt
 D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\obj\Debug\ProjectArchitectures.txt
+D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\bin\Debug\MoreOptionPage.xbf
+D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\obj\Debug\MoreOptionPage.g.i.cs
+D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\obj\Debug\MoreOptionPage.g.cs
+D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\obj\Debug\MoreOptionPage.xaml
+D:\Programowanie\VisualProjects\ListaZakupów\ListaZakupów\obj\Debug\MoreOptionPage.xbf
