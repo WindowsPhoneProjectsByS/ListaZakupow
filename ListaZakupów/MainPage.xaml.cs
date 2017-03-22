@@ -90,7 +90,8 @@ namespace ListaZakupów
 
         private void GoToMoreButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(MoreOptionPage), zakupy);
+            ObservableCollection<Zakup> noweZakupy = zakupy;
+            this.Frame.Navigate(typeof(MoreOptionPage), noweZakupy);
         }
     }
 }

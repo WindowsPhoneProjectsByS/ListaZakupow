@@ -11,8 +11,8 @@ namespace ListaZakupów
     {
         private string nazwa;
         private int ilosc;
-        private String jednostka;
-        private String prefMarak;
+        private string jednostka;
+        private string prefMarak;
         private int cenaMax;
 
         public String Nazwa
@@ -47,7 +47,7 @@ namespace ListaZakupów
             }
         }
 
-        public String Jednostka {
+        public string Jednostka {
             get { return this.jednostka; }
 
             set
@@ -61,7 +61,7 @@ namespace ListaZakupów
             }
         }
 
-        public String PrefMarak
+        public string PrefMarak
         {
             get { return this.prefMarak; }
             set 
@@ -85,6 +85,11 @@ namespace ListaZakupów
                     NotifyPropertyChnaged("CenaMax");
                 }
             }
+        }
+
+        public Object Clone()
+        {
+            return this.MemberwiseClone();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

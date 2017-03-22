@@ -27,7 +27,10 @@ namespace ListaZakupów
     /// </summary>
     public sealed partial class MoreOptionPage : Page
     {
-        private ObservableCollection<Zakup> zakupy = new ObservableCollection<Zakup>();
+        private ObservableCollection<Zakup> zakupy;
+
+        private bool searchWasUsed = false;
+
 
         public MoreOptionPage()
         {
@@ -45,17 +48,25 @@ namespace ListaZakupów
         {
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
-            zakupy = e.Parameter as ObservableCollection<Zakup>;
-            ZakupyDoEdycji.ItemsSource = zakupy;
-            zakupy.CollectionChanged += OnCollectionChanged;
+            
+            ObservableCollection<Zakup> zakupy2 = e.Parameter as ObservableCollection<Zakup>;
+            
+
+            CopyOnlyValuesOfCollection(zakupy2);
+      
+   
+          ZakupyDoEdycji.ItemsSource = zakupy;
+           
         }
 
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        private void CopyOnlyValuesOfCollection(ObservableCollection<Zakup> zakupy2)
         {
-            //ZakupyDoEdycji.ItemsSource = zakupy;
-
-            ZakupyDoEdycji.ItemsSource = null;
-            ZakupyDoEdycji.ItemsSource = zakupy;
+            zakupy = new ObservableCollection<Zakup>();
+            foreach (var zakup in zakupy2)
+            {
+                Zakup valueObject = (Zakup) zakup.Clone();
+                zakupy.Add(valueObject);
+            }
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -65,6 +76,7 @@ namespace ListaZakupów
             {
                 Frame.GoBack();
             }
+            
         }
 
         private void inicjujJednostkeComboBox()
@@ -137,24 +149,198 @@ namespace ListaZakupów
 
                 ChangePrefMark(namesList);
 
-
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = zakupy;
             }
         }
 
         private void SmallerLettersButton_Click(object sender, RoutedEventArgs e)
         {
-            var namesList = (from zakup in zakupy
-                             select zakup.Nazwa.ToLower()).ToList();
+            if (PoleWyszukiwania.SelectedIndex == 0)
+            {
+                var namesList = (from zakup in zakupy
+                                 select zakup.Nazwa.ToLower()).ToList();
 
-            ChangeNames(namesList);
+                ChangeNames(namesList);
 
-            ZakupyDoEdycji.ItemsSource = null;
-            ZakupyDoEdycji.ItemsSource = zakupy;
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = zakupy;
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 1)
+            {
+                ShowSpecialMessage();
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 2)
+            {
+                var namesList = (from zakup in zakupy
+                                 select zakup.Jednostka.ToLower()).ToList();
+
+                ChangeUnit(namesList);
+
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = zakupy;
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 3)
+            {
+                var namesList = (from zakup in zakupy
+                                 select zakup.PrefMarak.ToLower()).ToList();
+
+                ChangePrefMark(namesList);
+
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = zakupy;
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 4)
+            {
+                ShowSpecialMessage();
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 5)
+            {
+                var namesList = (from zakup in zakupy
+                                 select zakup.Nazwa.ToLower()).ToList();
+
+                ChangeNames(namesList);
+
+                namesList = (from zakup in zakupy
+                             select zakup.Jednostka.ToLower()).ToList();
+
+                ChangeUnit(namesList);
+
+                namesList = (from zakup in zakupy
+                             select zakup.PrefMarak.ToLower()).ToList();
+
+                ChangePrefMark(namesList);
+
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = zakupy;
+            }
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            searchWasUsed = true;
+
+            string searchedText = SearchText.Text;
+
+            if (PoleWyszukiwania.SelectedIndex == 0)
+            {
+                //var namesList = zakupy.Where(zakup => zakup.Nazwa.Contains(searchedText)).ToList();
+
+                var nameList = from zakup in zakupy
+                    where zakup.Nazwa.Contains(searchedText)
+                    select
+                    new
+                    {
+                        Nazwa = zakup.Nazwa,
+                        Jednostka = zakup.Jednostka,
+                        Ilosc = zakup.Ilosc,
+                        PrefMarak = zakup.PrefMarak,
+                        CenaMax = zakup.CenaMax
+                    };
+                
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = nameList;
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 1)
+            {
+                var listByAmount = from zakup in zakupy
+                               where zakup.Ilosc.ToString().Contains(searchedText)
+                               select
+                               new
+                               {
+                                   Nazwa = zakup.Nazwa,
+                                   Jednostka = zakup.Jednostka,
+                                   Ilosc = zakup.Ilosc,
+                                   PrefMarak = zakup.PrefMarak,
+                                   CenaMax = zakup.CenaMax
+                               };
+
+                List<Zakup> newList = new List<Zakup>();
+
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = listByAmount;
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 2)
+            {
+                var listByUnit = from zakup in zakupy
+                                   where zakup.Jednostka.Contains(searchedText)
+                                   select
+                                   new
+                                   {
+                                       Nazwa = zakup.Nazwa,
+                                       Jednostka = zakup.Jednostka,
+                                       Ilosc = zakup.Ilosc,
+                                       PrefMarak = zakup.PrefMarak,
+                                       CenaMax = zakup.CenaMax
+                                   };
+
+                List<Zakup> newList = new List<Zakup>();
+
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = listByUnit;
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 3)
+            {
+                var listByPrefMarak = from zakup in zakupy
+                                   where zakup.PrefMarak.Contains(searchedText)
+                                   select
+                                   new
+                                   {
+                                       Nazwa = zakup.Nazwa,
+                                       Jednostka = zakup.Jednostka,
+                                       Ilosc = zakup.Ilosc,
+                                       PrefMarak = zakup.PrefMarak,
+                                       CenaMax = zakup.CenaMax
+                                   };
+
+                List<Zakup> newList = new List<Zakup>();
+
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = listByPrefMarak;
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 4)
+            {
+                var listByPriceMax = from zakup in zakupy
+                                   where zakup.CenaMax.ToString().Contains(searchedText)
+                                   select
+                                   new
+                                   {
+                                       Nazwa = zakup.Nazwa,
+                                       Jednostka = zakup.Jednostka,
+                                       Ilosc = zakup.Ilosc,
+                                       PrefMarak = zakup.PrefMarak,
+                                       CenaMax = zakup.CenaMax
+                                   };
+
+                List<Zakup> newList = new List<Zakup>();
+
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = listByPriceMax;
+            }
+            else if (PoleWyszukiwania.SelectedIndex == 5)
+            {
+                var listByAmount = from zakup in zakupy
+                                   where zakup.Ilosc.ToString().Contains(searchedText) ||
+                                         zakup.CenaMax.ToString().Contains(searchedText) ||
+                                         zakup.PrefMarak.Contains(searchedText) ||
+                                         zakup.Jednostka.Contains(searchedText) ||
+                                         zakup.Nazwa.Contains(searchedText)
+
+                                   select
+                                   new
+                                   {
+                                       Nazwa = zakup.Nazwa,
+                                       Jednostka = zakup.Jednostka,
+                                       Ilosc = zakup.Ilosc,
+                                       PrefMarak = zakup.PrefMarak,
+                                       CenaMax = zakup.CenaMax
+                                   };
+
+                List<Zakup> newList = new List<Zakup>();
+
+                ZakupyDoEdycji.ItemsSource = null;
+                ZakupyDoEdycji.ItemsSource = listByAmount;
+            }
         }
 
         private void ChangeNames(List<string> listNames)
@@ -179,6 +365,24 @@ namespace ListaZakupów
             {
                 zakupy[i].Jednostka = listUnit[i];
             }
+        }
+
+        private List<Zakup> FindElementsByName(List<String> namesList)
+        {
+            List<Zakup> list = new List<Zakup>();
+
+            foreach (String name in namesList)
+            {
+                foreach (Zakup zakup in zakupy)
+                {
+                    if (zakup.Nazwa == name)
+                    {
+                        list.Add(zakup);
+                    }   
+                }
+            }
+
+            return list;
         }
 
 
